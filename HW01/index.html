@@ -30,6 +30,19 @@
 
 			.container {
 				max-width: 62.5em;
+				/*line-height: 30px;*/
+			}
+
+			table {
+				margin-top: 2.5em;
+			} 
+
+			body {
+				height: 162%;
+			}
+
+			footer {
+				padding-top: 3em;
 			}
 
     	</style>
@@ -40,10 +53,10 @@
 
 	<body class="text-center">
 
-	    <div class="container d-flex h-100 p-3 mx-auto flex-column">
+	    <div class="container d-flex p-3 mx-auto flex-column">
 			<header class="masthead mb-auto">
 				<div class="inner">
-					<h3 class="masthead-brand">Sarvesh Upadhyay</h3>
+					<h3 class="masthead-brand">Alphabet Inc. Stock Price</h3>
 					<!--<nav class="nav nav-masthead justify-content-center">
 						<a class="nav-link active" href="#">Home</a>
 						<a class="nav-link" href="#">Features</a>
@@ -52,22 +65,150 @@
 				</div>
 			</header>
 
-			<svg width="1000" height="600"></svg>
+			<div style="max-height: 1000px">
+				<svg width="1000" height="600"></svg>	
+			</div>
 
 			<main role="main" class="inner cover">
-				<h1 class="cover-heading">Alphabet Inc. Stock Price</h1>
 				<p class="lead">Above line graph, displays the rise/decline
 				 of stock price of Alphabet Inc. (GOOGL) for the period
 				  of 19-Nov-2016 to 19-Dec-2016</p>
-				<p class="lead">Data collected from Google Finance
-				 and Nasdaq</p>
+				<p class="lead">Data collected from 
+					<a href="https://finance.google.com/finance/historical?q=GOOGL" class="btn btn-primary" role="button" aria-disabled="true">
+						Google Finance
+					</a>
+					and
+					<a href="https://www.nasdaq.com/screening/company-list.aspx" class="btn btn-primary" role="button" aria-disabled="true">
+						Nasdaq
+					</a>
+				</p>
+
+				<p class="lead">My dataset can be described by the below two tables namely Stock Price table with 17726722 records of 4974 stocks across 3 stock exchanges from the date 1991-12-16 to the date 2016-12-21 and table Public Company</p>
 			</main>
 
+			<div>
+				<table class="table table-striped table-dark">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Ticker</th>
+							<th scope="col">Date</th>
+							<th scope="col">Closing Price</th>
+							<th scope="col">Daily High Price</th>
+							<th scope="col">Daily Low Price</th>
+							<th scope="col">Opening Price</th>
+							<th scope="col">Volume Traded</th>
+							<th scope="col">Timestamp</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr>
+							<th scope="row">1</th>
+							<th>YHOO</th>
+							<th>1996-04-12</th>
+							<th>1.3757</th>
+							<th>1.7926</th>
+							<th>1.0214</th>
+							<th>N/A</th>
+							<th>8654400</th>
+							<th>2016-12-14 01:24:14</th>
+						</tr>
+						<tr>
+							<th scope="row">2</th>
+							<th>YHOO</th>
+							<th>1996-04-15</th>
+							<th>1.3445</th>
+							<th>1.5008</th>
+							<th>1.2507</th>
+							<th>N/A</th>
+							<th>79179192</th>
+							<th>2016-12-14 01:24:14</th>
+						</tr>
+						<tr>
+							<th scope="row">3</th>
+							<th>...</th>
+							<th>...</th>
+							<th>...</th>
+							<th>...</th>
+							<th>...</th>
+							<th>...</th>
+							<th>...</th>
+							<th>...</th>
+						</tr>
+					</tbody>
+				</table>
+
+				<table class="table table-striped table-dark">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Symbol</th>
+							<th scope="col">Company Name</th>
+							<th scope="col">Last Sale</th>
+							<th scope="col">Market Capitalization</th>
+							<th scope="col">Adr TSO</th>
+							<th scope="col">Sector</th>
+							<th scope="col">Industry</th>
+							<th scope="col">Stock Exchange</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr>
+							<th scope="row">1</th>
+							<th>GOOGL</th>
+							<th>Alphabet Inc.</th>
+							<th>1119.2</th>
+							<th>777622522631.2</th>
+							<th>N/A</th>
+							<th>2004</th>
+							<th>Technology</th>
+							<th>Computer Software</th>
+							<th>nasdaq</th>
+						</tr>
+						<tr>
+							<th scope="row">2</th>
+							<th>AAPL</th>
+							<th>Apple Inc.</th>
+							<th>160.5</th>
+							<th>816472488000</th>
+							<th>N/A</th>
+							<th>1980</th>
+							<th>Technology</th>
+							<th>Computer Manufacturing</th>
+							<th>nasdaq</th>
+						</tr>
+						<tr>
+							<th scope="row">3</th>
+							<th>...</th>
+							<th>...</th>
+							<th>...</th>
+							<th>...</th>
+							<th>...</th>
+							<th>...</th>
+							<th>...</th>
+							<th>...</th>
+							<th>...</th>
+						</tr>
+					</tbody>
+				</table>
+
+
+			</div>
+				
 			<footer class="mastfoot mt-auto">
 				<div class="inner">
-					<p>Cover template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+					<p>Sarvesh Upadhyay | D3 Data Visualization</p>
 				</div>
+
+				<div class="inner">
+					<p style="text-align: justify">Sarvesh Upadhyay is a Graduate Computer Science Student enrolled in Data Visualization and Exploration Class taught by Prof. Georges Grinstein. Sarvesh has previously worked with javascript and has a good amount of web development experience. Sarvesh hopes to learn various visualization techniques, especially that are interactive in nature. Sarvesh is also keen to learn how to visualize high dimensional data and the precomputation and tradeoffs one need to make to visualize such datasets.</p>
+				</div>
+
 			</footer>
+
+
 		</div>
 
 		<!-- Optional JavaScript -->
