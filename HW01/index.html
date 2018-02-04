@@ -148,6 +148,7 @@
 							<th scope="col">Last Sale</th>
 							<th scope="col">Market Capitalization</th>
 							<th scope="col">Adr TSO</th>
+							<th scope="col">IPO Year</th>
 							<th scope="col">Sector</th>
 							<th scope="col">Industry</th>
 							<th scope="col">Stock Exchange</th>
@@ -219,25 +220,16 @@
 		<script src="https://d3js.org/d3.v4.min.js"></script>
 
 		<script type="text/javascript">
+
+			//https://developer.mozilla.org/en-US/docs/Web/SVG/Element/g
 			var svg = d3.select("svg");
 			
 			var margin = {top: 20, right: 20, bottom: 30, left: 50};
 			
-			//var containerWidth = $(".container").css("max-width");
-			//console.log("cw: " + containerWidth);
-
-			//var width = parseInt(containerWidth) - margin.left - margin.right;
-			//console.log("w: " + width);
-
-			//var containerHeight = $("svg").css("max-height");
-			//console.log("ch: " + containerHeight);	
-
-			//var height = parseInt(containerHeight) - margin.top - margin.bottom;
-			//console.log("h: " + height);
-			
 			var width = svg.attr("width") - margin.left - margin.right;
 			var height = svg.attr("height") - margin.top - margin.bottom;
 
+			//https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/transform
 			g = svg.append("g")
 				.attr('transform', `translate(${margin.left}, ${margin.top})`);
 
@@ -247,7 +239,6 @@
 			//https://github.com/d3/d3-scale#time-scales
 			//https://github.com/d3/d3-scale/blob/master/README.md#continuous_rangeRound
 			var x = d3.scaleTime().rangeRound([0, width]);
-
 			var y = d3.scaleLinear().rangeRound([height, 0]);
 
 			var line = d3.line()
@@ -264,13 +255,17 @@
 				x.domain(d3.extent(data, d => d.date));
 				y.domain(d3.extent(data, d => d.close));
 
+				//https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/transform
 				g.append("g")
 				.attr("transform", "translate(0," + height + ")")
 				.attr("class", "axisWhite")  
 				.call(d3.axisBottom(x));
-				//.select(".domain")
-				//.remove();
 
+				//text is also a svg element
+				//https://www.w3schools.com/graphics/svg_text.asp
+				//https://www.w3.org/TR/SVG/text.html#TextElement
+				//https://www.w3.org/TR/SVG/text.html#TextAnchorProperty
+				//https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/transform
 				g.append("g")
 				.attr("class", "axisWhite")
 				.call(d3.axisLeft(y))
@@ -283,7 +278,8 @@
 				.text("Stock Price ($)");
 
 				//path is a svg element
-				//https://www.w3schools.com/graphics/svg_path.asp
+				//https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths
+				//https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d
 				g.append("path")
 				.datum(data)
 				.attr("fill", "none")
