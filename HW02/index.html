@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<!-- Custom styles for this template
+		<link href="cover.css" rel="stylesheet">-->
+		<link rel="stylesheet" href="bootstrap.css" media="screen">
+		<link rel="stylesheet" href="custom.min.css">
+		<style type="text/css">
+			.axis-label {
+				fill: black; 
+				font: sans-serif; 
+				font-size: 12px; 
+			}
+
+			.cell {
+				font: sans-serif; 
+				font-size: 12px;
+			}
+
+			.legend .axis-label {
+				font-size: 14px; 
+			}
+		</style>
+		<title>Soccer Player Rating</title>
+	</head>
+	<body>
+		<div class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
+			<div class="container">
+				<a class="navbar-brand" href="#">
+					590V Data Visualization and Exploration
+				</a>
+
+				<div class="collapse navbar-collapse" id="navbarResponsive">
+					
+					<ul class="nav navbar-nav ml-auto">
+						<li class="nav-item">
+							<a class="nav-link" href="#">
+								Homework 02
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		<div class="container">
+			<div class="page-header" id="banner">
+				<div class="row">
+					<div class="col-lg-8 col-md-7 col-sm-6">
+						<h1>Fifa 18 Player Stats</h1>
+						<!--<p class="lead">Flat and modern</p>-->
+					</div>
+				</div>
+			</div>
+			
+			<div style="max-height: 1000px; padding-left: 30px">
+				<svg width="1000" height="600"></svg>
+			
+
+			<form class="form-inline">
+				<div class="form-group">
+					<p class="form-control-static">X Axis</p>
+				</div>
+				<div class="form-group col-md-4">
+					<select id="xSelect" class="form-control"></select>
+				</div>
+				<div class="form-group">
+					<p class="form-control-static">Y Axis</p>
+				</div>
+				<div class="form-group col-md-4">
+					<select id="ySelect" class="form-control"></select>
+				</div>
+				<button type="button" id="resetLegend" class="btn btn-success">Reset Legend</button>
+			</form>
+		</div>
+
+		<div class="bs-docs-section clearfix">
+			<div class="row">
+				<div class="col-lg-8 col-md-7 col-sm-6">
+					<h4>Scatterplot Features</h4>
+					<p class="lead">
+						The variables to be compared can be selected using X axis and Y axis dropdowns. Legend can be used to select a group that is to displayed in cartesian plot and reset legend button reselects all the groups. When we hover over a data point in the cartesian plot and info box is popped out coveying more information about that data point. For the purpose of this homework I have used two visual cues namely color and color transperacy. Color is used here to group datapoints together as mentioned in legend section. While transperancy, is used to visually inform overlapping datapoints i.e. it describes the area where data points are concentration.
+					</p>
+				</div>
+			</div>
+		</div>
+		
+		<div class="bs-docs-section clearfix">
+			<div class="row">
+				<div class="col-lg-8 col-md-7 col-sm-6">
+					<h2>Dataset</h2>
+					<p class="lead">This dataset was obtained from
+						<a class="link" href="https://www.kaggle.com/kevinmh/fifa-18-more-complete-player-dataset">
+							Kaggle
+						</a>
+						it was created by scraping data from 
+						<a class="link" href="https://sofifa.com/">
+							SOFIFA
+						</a>.
+						This dataset has football player ratings across the globe. There are 185 columns and 17994 rows.
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="bs-docs-section clearfix">
+			<div class="row">
+				<div class="col-lg-8 col-md-7 col-sm-6">
+					<h2>Insights</h2>
+					<p class="lead">I found a correlation between a football players's dribbling ability and passing ability, this is not at all intuitive and the general concesus in football universe is pace and dribbling ability go in hand and hand but there is no such accepted notion of passing and dribbling ability. My theory is, since dribbling and passing are footballing trait that require tremendous amount of technical ability, this might explain why the two are correlated.</p>
+					<p class="lead">Another graph that could have uncovered this trend would have been, two gaussian curves for dribbling ability and passing ability</p>
+				</div>
+			</div>
+		</div>		
+
+
+		<div class="bs-docs-section clearfix">
+			<div class="row">
+	        	<div class="col-lg-12">
+					<div class="page-header">
+						<h1 id="containers">Scatter Plots</h1>
+					</div>
+					<div class="bs-component">
+						<div class="jumbotron">
+							<p class="lead">
+								Scatterplot is a mathematical graph/diagram which is plotted on a catesian plot, and is used to compare two variables plotted on 2 axes of cartesian plane. Scatteplot are extremely useful to find correlations whether the correlation is positive, negative or uncorrelated. Scatterplots are also useful to find the spread of data and finding outliers in the dataset. One can add other variables by adding visual cues likes color, shape, size etc on a 2D surface. Scatterplots can be likewise three dimensional as well. Scatterplots come with great amount of variation. Scatterplot feature bring thi variation. Examples of these features include color, size, opacity, zoom level, shape, different ticks, color hues,  different scales in axes (e.g. linear scale, logarithmic scale), normalization, standardization, multiple sub scatter plots within one bigger encompassing plot, using different width and height of subplot, different stroke color, scatterplot with a specific image in background.
+							</p>
+							
+							<hr class="my-4">
+
+							<p class="lead">
+								A novel scatterplot example could be a 3D scatterplot. This would enable us to find correlation between 3 variables and with additional visual cue we could add more variable information to the 3D space of scatterplot. 
+							</p>
+							
+						</div>
+					</div>
+				</div>
+	        </div>
+		</div>
+
+		<!-- Optional JavaScript -->
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<script
+			src="//code.jquery.com/jquery-3.3.1.min.js"
+			integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+		crossorigin="anonymous"></script>
+		<!--<script
+			src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+			integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+		crossorigin="anonymous"></script>-->
+		<script
+			src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+			integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+		<script
+			src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+			integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+		<script src="//d3js.org/d3.v4.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.5/d3-legend.min.js"></script>
+		<script type='text/javascript' src='script.js'></script>
+	</body>
+</html>
