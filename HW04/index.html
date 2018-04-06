@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<!-- Custom styles for this template-->
+		<link rel="stylesheet" href="flatly.css" media="screen">
+		<link rel="stylesheet" href="custom.min.css">
+		<style>
+			body {
+				background: #fcfcfa;
+			}
+
+			/*.border {
+				fill: none;
+				stroke: #fff;
+				stroke-linejoin: round;
+				stroke-linecap: round;
+			}
+
+			.bubble {
+				fill: brown;
+				fill-opacity: .5;
+				stroke: #fff;
+				stroke-width: .1px;
+			}
+
+			.bubble :hover {
+				stroke: #000;
+			}
+
+			.background {
+				fill: #f6fbfc;
+				pointer-events: all;
+			}
+
+			.feature {
+				fill: #ddd;
+				cursor: pointer;
+			}
+
+			.feature.active {
+				fill: orange;
+			}
+
+			.mesh {
+				fill: none;
+				stroke: #fff;
+				stroke-linecap: round;
+				stroke-linejoin: round;
+			}*/
+
+			table.tooltip {
+				position: absolute;
+				z-index: 10;
+				display: none;
+			}
+
+			div.row h2 {
+				margin-bottom: 1em;
+			}
+		</style>
+
+		<title>Stock Price Visualization</title>
+
+	</head>
+
+	<body>
+		<div class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
+			<div class="container">
+				<a class="navbar-brand" href="#">
+					Data Visualization and Exploration
+				</a>
+
+				<div class="collapse navbar-collapse" id="navbarResponsive">
+					<ul class="nav navbar-nav ml-auto">
+						<li class="nav-item">
+							<a class="nav-link" href="#">
+								Homework 04
+							</a>
+						</li>
+
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		<div class="container">
+			<div class="page-header" id="banner">
+				<div class="row">
+					<div class="col-lg-8 col-md-7 col-sm-6">
+						<h1>Line Graph : Stock Price Analysis</h1>
+						<p class="lead">Stock Price trend of Stock GOOGL (Alphabet Inc.) for the selected year.</p>
+					</div>
+				</div>
+			</div>
+			
+			<!--
+			1140 : so that svg_box has same width as bootstrap's .container max_width
+			0705 : Golden rectangle ratio rule (1:1.618)
+			-->
+			<div>
+				<svg id="svg_line" width="1140" height="705"></svg>
+			</div>
+		
+			<form class="form-inline">
+				<div class="form-group">
+					<p class="form-control-static">Display Stock Price trend for Year: </p>
+				</div>
+				<div class="form-group col-md-4">
+					<select id="select_line" class="form-control">
+					</select>
+				</div>
+			</form>
+
+			<div class="bs-docs-section clearfix">
+				<div class="row">
+					<h1>Radial Graph : Stock Price Analysis</h1>
+					<p class="lead">Stock Price trend of Stock GOOGL (Alphabet Inc.) for the selected year.</p>
+				</div>
+			</div>
+
+			<div> 
+				<svg id="svg_radial" width="1140" height="750"></svg>
+			</div>
+
+			<form class="form-inline">
+				<div class="form-group">
+					<p class="form-control-static">Display Stock Price trend for Year: </p>
+				</div>
+				<div class="form-group col-md-4">
+					<select id="select_radial" class="form-control"></select>
+				</div>
+			</form>
+
+			<div class="bs-docs-section clearfix">
+				<div class="row">
+					<h2>Dataset</h2>
+
+					<p class="lead">
+						Above line graph and Radial graph, displays the rise/decline of stock price of Alphabet Inc. (GOOGL) for the entire year as selected using dropdown. At page load, the drawn graph is for the year 2016.
+					</p>
+
+					<p class="lead">
+						Data for visualization was collected from 
+						<a href="https://finance.google.com/finance/historical?q=GOOGL">
+							Google Finance
+						</a>
+						and
+						<a href="https://www.nasdaq.com/screening/company-list.aspx">
+							Nasdaq
+						</a> in csv format. Later this data was clean for missing values, and then stored in SQL Database so that it becomes easier to create custom subsets of the dataset.
+					</p>
+
+					<p class="lead">
+						This dataset can be described by the below two tables namely Stock Price table and Public Company. Stock price table has 17726722 records of 4974 stocks across 3 stock exchanges from the date 1991-12-16 to the date 2016-12-21. Public Company table contains information of firms in the three stock exchanges.
+					</p>
+
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Ticker</th>
+								<th scope="col">Date</th>
+								<th scope="col">Closing Price</th>
+								<th scope="col">Daily High Price</th>
+								<th scope="col">Daily Low Price</th>
+								<th scope="col">Opening Price</th>
+								<th scope="col">Volume Traded</th>
+								<th scope="col">Timestamp</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr>
+								<td scope="row">1</td>
+								<td>YHOO</td>
+								<td>1996-04-12</td>
+								<td>1.3757</td>
+								<td>1.7926</td>
+								<td>1.0214</td>
+								<td>N/A</td>
+								<td>8654400</td>
+								<td>2016-12-14 01:24:14</td>
+							</tr>
+							<tr>
+								<td scope="row">2</td>
+								<td>YHOO</td>
+								<td>1996-04-15</td>
+								<td>1.3445</td>
+								<td>1.5008</td>
+								<td>1.2507</td>
+								<td>N/A</td>
+								<td>79179192</td>
+								<td>2016-12-14 01:24:14</td>
+							</tr>
+							<tr>
+								<td scope="row">3</td>
+								<td>...</td>
+								<td>...</td>
+								<td>...</td>
+								<td>...</td>
+								<td>...</td>
+								<td>...</td>
+								<td>...</td>
+								<td>...</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Symbol</th>
+								<th scope="col">Company Name</th>
+								<th scope="col">Last Sale</th>
+								<th scope="col">Market Capitalization</th>
+								<th scope="col">Adr TSO</th>
+								<th scope="col">IPO Year</th>
+								<th scope="col">Sector</th>
+								<th scope="col">Industry</th>
+								<th scope="col">Stock Exchange</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr>
+								<td scope="row">1</td>
+								<td>GOOGL</td>
+								<td>Alphabet Inc.</td>
+								<td>1119.2</td>
+								<td>777622522631.2</td>
+								<td>N/A</td>
+								<td>2004</td>
+								<td>Technology</td>
+								<td>Computer Software</td>
+								<td>nasdaq</td>
+							</tr>
+							<tr>
+								<td scope="row">2</td>
+								<td>AAPL</td>
+								<td>Apple Inc.</td>
+								<td>160.5</td>
+								<td>816472488000</td>
+								<td>N/A</td>
+								<td>1980</td>
+								<td>Technology</td>
+								<td>Computer Manufacturing</td>
+								<td>nasdaq</td>
+							</tr>
+							<tr>
+								<td scope="row">3</td>
+								<td>...</td>
+								<td>...</td>
+								<td>...</td>
+								<td>...</td>
+								<td>...</td>
+								<td>...</td>
+								<td>...</td>
+								<td>...</td>
+								<td>...</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+		</div>
+		<!-- container end | super Imp! -->
+
+		<table class="table table-dark tooltip" style="width: auto;">
+			<tbody>
+				<tr>
+					<th scope="row">Country</th>
+					<td id="nationality"></td>
+				</tr>
+				<tr>
+					<th scope="row">Count</th>
+					<td id="count"></td>
+				</tr>
+				<tr>
+					<th scope="row">Age</th>
+					<td id="age"></td>
+				</tr>
+				<tr>
+					<th scope="row">Overall</th>
+					<td id="overall"></td>
+				</tr>
+				<tr>
+					<th scope="row">Potential</th>
+					<td id="potential"></td>
+				</tr>
+				<tr>
+					<th scope="row">Pace</th>
+					<td id="pac"></td>
+				</tr>
+				<tr>
+					<th scope="row">Shooting</th>
+					<td id="sho"></td>
+				</tr>
+				<tr>
+					<th scope="row">Passing</th>
+					<td id="pas"></td>
+				</tr>
+				<tr>
+					<th scope="row">Dribling</th>
+					<td id="dri"></td>
+				</tr>
+				<tr>
+					<th scope="row">Defending</th>
+					<td id="def"></td>
+				</tr>
+				<tr>
+					<th scope="row">Physical</th>
+					<td id="phy"></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<!-- Optional JavaScript -->
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<script
+			src="//code.jquery.com/jquery-3.3.1.min.js"
+			integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+		crossorigin="anonymous"></script>
+		
+		<script
+			src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+			integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+		
+		<script
+			src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+			integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+
+		<script src="//d3js.org/d3.v4.min.js"></script>
+
+		<!-- Custom JavaScript -->
+		<script src='d3-scale-radial.js'></script>
+		<script src='script.js'></script>
+	</body>
+</html>
+
+<!--
+
+Reference :
+
+http://bl.ocks.org/jadiehm/311fcceab8425ddf1944
+http://bl.ocks.org/d3noob/e5daff57a04c2639125e 
+Lab 10
+
+-->
