@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<!-- Custom styles for this template-->
+		<link rel="stylesheet" href="flatly.css" media="screen">
+		<link rel="stylesheet" href="custom.min.css">
+		<style>
+			body {
+				background: #fcfcfa;
+			}
+
+			.border {
+				fill: none;
+				stroke: #fff;
+				stroke-linejoin: round;
+				stroke-linecap: round;
+			}
+
+			.bubble {
+				fill: brown;
+				fill-opacity: .5;
+				stroke: #fff;
+				stroke-width: .1px;
+			}
+
+			.bubble :hover {
+				stroke: #000;
+			}
+
+			.background {
+				fill: #f6fbfc;
+				pointer-events: all;
+			}
+
+			.feature {
+				fill: #ddd;
+				cursor: pointer;
+			}
+
+			.feature.active {
+				fill: orange;
+			}
+
+			.mesh {
+				fill: none;
+				stroke: #fff;
+				stroke-linecap: round;
+				stroke-linejoin: round;
+			}
+
+			table {
+				position: absolute;
+				z-index: 10;
+				display: none;
+			}
+
+			div.row h2 {
+				margin-bottom: 1em;
+			}
+		</style>
+
+		<title>Fifa 18 Player Origins</title>
+
+	</head>
+
+	<body>
+		<div class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
+			<div class="container">
+				<a class="navbar-brand" href="#">
+					590V Data Visualization and Exploration
+				</a>
+
+				<div class="collapse navbar-collapse" id="navbarResponsive">
+					<ul class="nav navbar-nav ml-auto">
+						<li class="nav-item">
+							<a class="nav-link" href="#">
+								Homework 03
+							</a>
+						</li>
+
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		<div class="container">
+			<div class="page-header" id="banner">
+				<div class="row">
+					<div class="col-lg-8 col-md-7 col-sm-6">
+						<h1>Map Projections</h1>
+						<p class="lead">Fifa 18 Origins | Football Player Nationalities</p>
+					</div>
+				</div>
+			</div>
+			
+			<!--
+			1140 : so that svg_box has same width as bootstrap's .container max_width
+			0705 : Golden rectangle ratio rule (1:1.618)
+			-->
+			<div>
+				<svg width="1140" height="705"></svg>
+			</div>
+		
+			<form class="form-inline">
+				<div class="form-group">
+					<p class="form-control-static">Bubble represents: </p>
+				</div>
+				<div class="form-group col-md-4">
+					<select id="bSelect" class="form-control">
+						<option value="count" selected="selected">
+							Count
+						</option>
+						<option value="age">Age</option>
+						<option value="overall">Overall</option>
+						<option value="potential">Potential</option>
+						<option value="pac">Pace</option>
+						<option value="sho">Shooting</option>
+						<option value="pas">Passing</option>
+						<option value="dri">Dribling</option>
+						<option value="def">Defending</option>
+						<option value="phy">Physical</option>
+					</select>
+				</div>
+			</form>
+
+			<div class="bs-docs-section clearfix">
+				<div class="row">
+					<h2>Map Projection Plot Features</h2>
+					<p class="lead">Users can zoom in and out of the map using mouse scroll also users can pan the map around using mouse</p>
+					<p class="lead">Users can lookup more information about a data point by hovering over data-point</p>
+					<p class="lead">By default, the size of data-points, drawn as partially transparent bubbles represents count of players in that country. User can use dropdown beneath the Map plot to change what bubble represents.</p>
+					<p class="lead">Scrolling continously can be monotonous, therefore users can use the additional feature of clicking a country to zoom into it and it is centered in the Map plot.</p>
+					<p class="lead">To zoom out to world-wide scale, one just need to click either on the same selected country or click in the non-land mass area of map.</p>
+				</div>
+			</div>
+
+			<div class="bs-docs-section clearfix">
+				<div class="row">
+					<h2>Dataset</h2>
+					<p class="lead">This dataset was obtained from
+						<a class="link" href="https://www.kaggle.com/kevinmh/fifa-18-more-complete-player-dataset">
+							Kaggle
+						</a>
+						it was created by scraping data from 
+						<a class="link" href="https://sofifa.com/">
+							SOFIFA
+						</a>.
+						This dataset has football player ratings across the globe. There are 185 columns and 17994 rows.
+					</p>
+
+					<p class="lead">
+						For the purpose of this assigment, I had to clean data and add co-ordinates of football players nationalities. To do so, I used data complied and hosted on 
+						<a class="link" href="https://github.com/mledoze/countries">
+							World countries
+						</a>. Once co-ordinates where obtained, i aggregated the data using the below SQL query to generate basic dataset.
+
+						<blockquote>
+							<pre>
+								<code>
+	SELECT f1.*, c.longitude, c.latitude 
+	FROM (
+		select 
+		f.nationality,
+		count(*) 'count',
+		avg(f.age) 'age',
+		avg(f.overall) 'overall',
+		avg(f.potential) 'potential',
+		avg(f.pac) 'pac',
+		avg(f.sho) 'sho',
+		avg(f.pas) 'pas',
+		avg(f.dri) 'dri',
+		avg(f.def) 'def',
+		avg(f.phy) 'phy'
+		from fifa18 f
+		group by f.nationality
+	) as f1, country c 
+	where f1.nationality = c.name
+								</code>
+							</pre>
+						</blockquote>
+
+					</p>
+
+				</div>
+			</div>
+
+			<div class="bs-docs-section clearfix">
+				<div class="row">
+					<h2>Winkel tripel projection</h2>
+					<p class="lead">
+						The Winkel tripel projection (Winkel III), a modified azimuthal map projection (pseudoazimuthal) of the world, is one of three projections proposed by German cartographer Oswald Winkel (7 January 1874 – 18 July 1953 ) in 1921.
+					</p>
+					<p class="lead">
+						The projection is the arithmetic mean of the equirectangular projection and the Aitoff projection.
+					</p>
+					<p class="lead">
+						Winkel tripel fares well against several other projections analyzed against their measures of distortion, producing small distance errors, small combinations of Tissot indicatrix ellipticity and area errors, and the smallest skewness of any of the projections they studied. 
+					</p>
+					<p class="lead">
+						This map projection shows Greenland as the same size as Argentina, and not as the size of all of South America. It shows reasonably accurate shapes and sizes of countries.
+					</p>
+					<p class="lead">
+						In 1998, the Winkel tripel projection replaced the Robinson projection as the standard projection for world maps made by the National Geographic Society. Many educational institutes and textbooks followed National Geographic's example in adopting the projection, and most of those still use it.
+					</p>
+					<p class="lead">
+						However, despite its popularity, since the map doesn’t preserve angles, it is nowhere close to replacing Mercator for navigation purposes.
+					</p>
+				</div>
+			</div>
+
+		</div>
+		<!-- container end | super Imp! -->
+
+		<table class="table table-dark" style="width: auto;">
+			<tbody>
+				<tr>
+					<th scope="row">Country</th>
+					<td id="nationality"></td>
+				</tr>
+				<tr>
+					<th scope="row">Count</th>
+					<td id="count"></td>
+				</tr>
+				<tr>
+					<th scope="row">Age</th>
+					<td id="age"></td>
+				</tr>
+				<tr>
+					<th scope="row">Overall</th>
+					<td id="overall"></td>
+				</tr>
+				<tr>
+					<th scope="row">Potential</th>
+					<td id="potential"></td>
+				</tr>
+				<tr>
+					<th scope="row">Pace</th>
+					<td id="pac"></td>
+				</tr>
+				<tr>
+					<th scope="row">Shooting</th>
+					<td id="sho"></td>
+				</tr>
+				<tr>
+					<th scope="row">Passing</th>
+					<td id="pas"></td>
+				</tr>
+				<tr>
+					<th scope="row">Dribling</th>
+					<td id="dri"></td>
+				</tr>
+				<tr>
+					<th scope="row">Defending</th>
+					<td id="def"></td>
+				</tr>
+				<tr>
+					<th scope="row">Physical</th>
+					<td id="phy"></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<!-- Optional JavaScript -->
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<script
+			src="//code.jquery.com/jquery-3.3.1.min.js"
+			integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+		crossorigin="anonymous"></script>
+		
+		<script
+			src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+			integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+		
+		<script
+			src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+			integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+		
+		<!-- Geo Mapping JavaScript -->
+		<script src="//d3js.org/d3.v4.min.js"></script>
+		<script src="//d3js.org/d3-array.v1.min.js"></script>
+		<script src="//d3js.org/d3-geo-projection.v2.min.js"></script>
+		<script src="//unpkg.com/topojson@3"></script>
+
+		<!-- Custom JavaScript -->
+		<script src='script.js'></script>
+
+	</body>
+
+
+</html>
+
+<!--
+
+Reference :
+
+https://bl.ocks.org/mbostock/9943478
+https://bootswatch.com/flatly/
+https://bl.ocks.org/iamkevinv/0a24e9126cd2fa6b283c6f2d774b69a2
+http://www.d3noob.org/2013/03/a-simple-d3js-map-explained.html
+https://en.wikipedia.org/wiki/Kavrayskiy_VII_projection
+https://bl.ocks.org/mbostock/3682676
+http://geoawesomeness.com/best-map-projection/
+https://en.wikipedia.org/wiki/Winkel_tripel_projection
+
+ -->

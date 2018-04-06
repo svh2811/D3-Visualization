@@ -1,0 +1,18 @@
+SELECT f1.*, c.longitude, c.latitude 
+FROM (
+	select 
+	f.nationality,
+	count(*) 'count',
+	avg(f.age) 'age',
+	avg(f.overall) 'overall',
+	avg(f.potential) 'potential',
+	avg(f.pac) 'pac',
+	avg(f.sho) 'sho',
+	avg(f.pas) 'pas',
+	avg(f.dri) 'dri',
+	avg(f.def) 'def',
+	avg(f.phy) 'phy'
+	from fifa18 f
+	group by f.nationality
+) as f1, country c 
+where f1.nationality = c.name
