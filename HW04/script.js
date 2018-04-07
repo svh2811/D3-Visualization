@@ -23,7 +23,7 @@ var margin = {top: 20, right: 20, bottom: 30, left: 50};
 var innerWidth = svg.attr("width") - margin.left - margin.right;
 var innerHeight = svg.attr("height") - margin.top - margin.bottom;
 const parseTime = d3.timeParse("%Y-%m-%d");
-var bisectDate = d3.bisector(d => d.date).left;
+//var bisectDate = d3.bisector(d => d.date).left;
 
 var g = null;
 
@@ -85,6 +85,7 @@ function drawLineGraph(year) {
 		.attr("d", line)
 		.on("mousemove", mousemove);
 
+		/*
 		var focus = svg.append("g").style("display", "none");
 
 		focus.append("circle")
@@ -113,7 +114,8 @@ function drawLineGraph(year) {
 			//console.log(x_n + ", " + y_n);
 			focus.select("circle.y")
 			.attr("transform", "translate(" + x_n + "," + y_n + ")");
-		}	    
+		}	
+		*/    
 	});
 }
 
