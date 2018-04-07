@@ -23,6 +23,42 @@
 			div.row h2 {
 				margin-bottom: 1em;
 			}
+
+			.axis {
+				font: 10px sans-serif;
+			}
+
+			.axis path,
+			.axis line {
+			  fill: none;
+			  stroke: #D4D8DA;
+			  stroke-width: 2px;
+			  shape-rendering: crispEdges;
+			}
+
+			.line {
+			  fill: none;
+			  stroke: #6F257F;
+			  stroke-width: 5px;
+			}
+
+			.overlay {
+			  fill: none;
+			  pointer-events: all;
+			}
+
+			.focus circle {
+			  fill: #F1F3F3;
+			  stroke: #6F257F;
+			  stroke-width: 5px;
+			}
+			  
+			.hover-line {
+			  stroke: #6F257F;
+			  stroke-width: 2px;
+			  stroke-dasharray: 3,3;
+			}
+
 		</style>
 
 		<title>Stock Price Visualization</title>
@@ -230,37 +266,11 @@
 				</div>
 			</div>
 
+			<div id='tooltip' style='position:absolute;background-color:lightgray;padding:5px'>
+			</div>
+
 		</div>
 		<!-- container end | super Imp! -->
-
-		<table class="table table-dark tooltip" style="width: auto;">
-			<tbody>
-				<tr>
-					<th scope="row">Date</th>
-					<td id="date"></td>
-				</tr>
-				<tr>
-					<th scope="row">Close</th>
-					<td id="close"></td>
-				</tr>
-				<tr>
-					<th scope="row">High</th>
-					<td id="high"></td>
-				</tr>
-				<tr>
-					<th scope="row">Low</th>
-					<td id="low"></td>
-				</tr>
-				<tr>
-					<th scope="row">Opem</th>
-					<td id="open"></td>
-				</tr>
-				<tr>
-					<th scope="row">Volume</th>
-					<td id="volume"></td>
-				</tr>
-			</tbody>
-		</table>
 
 		<!-- Optional JavaScript -->
 		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -290,9 +300,7 @@
 <!--
 
 Reference :
-
-http://bl.ocks.org/jadiehm/311fcceab8425ddf1944
-http://bl.ocks.org/d3noob/e5daff57a04c2639125e 
+https://bl.ocks.org/alandunning/cfb7dcd7951826b9eacd54f0647f48d3
 Lab 10
 
 -->

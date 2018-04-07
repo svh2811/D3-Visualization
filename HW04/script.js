@@ -23,7 +23,9 @@ var margin = {top: 20, right: 20, bottom: 30, left: 50};
 var innerWidth = svg.attr("width") - margin.left - margin.right;
 var innerHeight = svg.attr("height") - margin.top - margin.bottom;
 const parseTime = d3.timeParse("%Y-%m-%d");
-//var bisectDate = d3.bisector(d => d.date).left;
+var bisectDate = d3.bisector(d => d.date).left;
+
+var formatTime = d3.timeFormat("%B %d, %Y");
 
 var g = null;
 
@@ -37,8 +39,12 @@ var line = d3.line()
 const rowsPreProcessFn = d => {
 	d.date = parseTime(d.date);
 	d.close = +d.close;
+	d.high = +d.high;
+	d.low = +d.low;
+	d.open = +d.open;
+	d.volume = +d.volume;
 	return d;
-};    
+};
 
 function drawLineGraph(year) {
 
@@ -50,14 +56,10 @@ function drawLineGraph(year) {
 	.attr('transform', `translate(${margin.left}, ${margin.top})`);
 
 	d3.csv(csv_file, rowsPreProcessFn, data => {
-
-    	console.log("Before: " + data.length);
-    	data = data.filter( function (d) {
+		data = data.filter( function (d) {
     		return d.date.getFullYear() == year;
 		});
-		console.log("After : " + data.length);
-
-
+		
 		x.domain(d3.extent(data, d => d.date));
 		y.domain(d3.extent(data, d => d.close));
 
@@ -82,40 +84,72 @@ function drawLineGraph(year) {
 		.attr("stroke-linejoin", "round")
 		.attr("stroke-linecap", "round")
 		.attr("stroke-width", 1.5)
-		.attr("d", line)
-		.on("mousemove", mousemove);
+		.attr("d", line);
 
-		/*
-		var focus = svg.append("g").style("display", "none");
+		var focus = g.append("g")
+		        .attr("class", "focus")
+		        .style("display", "none");
 
-		focus.append("circle")
-		.attr("class", "y")
-		.style("fill", "red")
-		.attr("r", 4);
-	    
+	    focus.append("line")
+	        .attr("class", "x-hover-line hover-line")
+	        .attr("y1", 0)
+	        .attr("y2", innerHeight);
+
+	    focus.append("line")
+	        .attr("class", "y-hover-line hover-line")
+	        .attr("x1", innerWidth)
+	        .attr("x2", innerWidth);
+
+	    focus.append("circle")
+	        .attr("r", 7.5);
+
+	    focus.append("text")
+	        .attr("x", 15)
+	      	.attr("dy", ".31em");
+
 	    svg.append("rect")
-		.attr("width", innerWidth)
-		.attr("height", innerHeight)
-		.style("fill", "none")
-	    .style("pointer-events", "all")
-		.on("mouseover", function() { focus.style("display", null); })
-		.on("mouseout", function() { focus.style("display", "none"); })
-		.on("mousemove", mousemove);
+	        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+	        .attr("class", "overlay")
+	        .attr("width", innerWidth)
+	        .attr("height", innerHeight)
+	        .on("mouseover", function() { 
+	        	focus.style("display", null);
+	        })
+	        .on("mouseout", function() { 
+	        	focus.style("display", "none"); 
+	        })
+	        .on("mousemove", mousemove);
 
 	    function mousemove() {
-			var x0 = x.invert(d3.mouse(this)[0]);
-			var i  = bisectDate(data, x0, 1);
-			var d0 = data[i - 1];
-			var d1 = data[i];
-			var d  = x0 - d0.date > d1.date - x0 ? d1 : d0;
-			var x_n = x(d.date);
-			var y_n = y(d.close);
+			var x0 = x.invert(d3.mouse(this)[0]),
+			i = bisectDate(data, x0, 1),
+			d0 = data[i - 1],
+			d1 = data[i],
+			d = x0 - d0.year > d1.year - x0 ? d1 : d0;
 
-			//console.log(x_n + ", " + y_n);
-			focus.select("circle.y")
-			.attr("transform", "translate(" + x_n + "," + y_n + ")");
-		}	
-		*/    
+			x_n = x(d.date);
+			y_n = y(d.close);
+
+			focus.attr("transform",
+			"translate(" + x_n + "," + y_n + ")");
+			
+			focus.select("text").text(function() {
+				return "Date: " +  formatTime(d.date) +
+				'\nClose: ' + d.close +
+				'\nHigh: ' + d.high +
+				'\nLow: ' + d.low +
+				'\nOpen: ' + d.open +
+				'\nVolume: ' + d.volume;
+			});
+			
+			focus
+			.select(".x-hover-line")
+			.attr("y2", innerHeight - y(d.close));
+			
+			focus
+			.select(".y-hover-line")
+			.attr("x2", innerHeight + innerWidth);
+	    }
 	});
 }
 
@@ -168,11 +202,9 @@ function drawRadialGraph(year) {
 
 	d3.csv(csv_file, rowsPreProcessFn, data => {
     	
-    	console.log("Before: " + data.length);
     	data = data.filter( function (d) {
     		return d.date.getFullYear() == year;
 		});
-		console.log("After : " + data.length);
 
 		xScale.domain(d3.extent(data, d => d.date));
 		yScale.domain(d3.extent(data, d => d.close));
