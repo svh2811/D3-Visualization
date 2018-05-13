@@ -1,0 +1,6 @@
+sudo service mysql status
+
+mysql -u root -p
+
+mysql -p <-- for user svh2811
+
