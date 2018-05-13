@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<!-- Custom styles for this template-->
+		<link rel="stylesheet" href="flatly.css" media="screen">
+		<link rel="stylesheet" href="custom.min.css">
+		<link rel="stylesheet" type="text/css" href="p-loading.min.css" />
+		<style>
+			body {
+				background: #fcfcfa;
+			}
+
+			table.tooltip {
+				position: absolute;
+				z-index: 10;
+				display: none;
+			}
+
+			div.row h2 {
+				margin-bottom: 1em;
+			}
+
+			.axis {
+				font: 10px sans-serif;
+			}
+
+			.axis path,
+			.axis line {
+			  fill: none;
+			  stroke: #D4D8DA;
+			  stroke-width: 2px;
+			  shape-rendering: crispEdges;
+			}
+
+			.link {
+				stroke: #aaa;
+				stroke-width: 1.5px;
+			}
+
+			.links line {
+				stroke: #999;
+				stroke-opacity: 0.6;
+			}
+
+			.nodes circle {
+				stroke: white;
+				stroke-width: 1.5px;
+			}
+
+			.bar {
+			  fill: steelblue;
+			}
+
+			.bar:hover {
+			  fill: brown;
+			}
+
+			.axis--x path {
+			  display: none;
+			}
+
+			/* The slider itself */
+			.slider {
+			    -webkit-appearance: none;  /* Override default CSS styles */
+			    appearance: none;
+			    width: 100%; /* Full-width */
+			    height: 10px; /* Specified height */
+			    background: #d3d3d3; /* Grey background */
+			    outline: none; /* Remove outline */
+			    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+			    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+			    transition: opacity .2s;
+			}
+
+			/* Mouse-over effects */
+			.slider:hover {
+			    opacity: 1; /* Fully shown on mouse-over */
+			}
+
+			/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */ 
+			.slider::-webkit-slider-thumb {
+			    -webkit-appearance: none; /* Override default look */
+			    appearance: none;
+			    width: 25px; /* Set a specific slider handle width */
+			    height: 25px; /* Slider handle height */
+			    background: steelblue; /* Green background */
+			    cursor: pointer; /* Cursor on hover */
+			}
+
+			.slider::-moz-range-thumb {
+			    width: 25px; /* Set a specific slider handle width */
+			    height: 25px; /* Slider handle height */
+			    background: steelblue; /* Green background */
+			    cursor: pointer; /* Cursor on hover */
+			}
+
+			#svg_graph {
+			    border: 1px solid;
+			    font: 13px sans-serif;
+			    text-anchor: end;
+			}
+
+			#svg_graph .nodes {
+			  stroke: #fff;
+			  stroke-width: 1.5px;
+			}
+
+			#svg_graph .nodes .selected {
+			  stroke: black;
+			}
+
+			.link {
+			  stroke: #999;
+			}
+
+			.axis path,
+			.axis line {
+			  fill: none;
+			  stroke: #000;
+			  shape-rendering: crispEdges;
+			}
+
+			.bar {
+			  fill: orange;
+			}
+
+			.bar:hover {
+			  fill: orangered ;
+			}
+
+			.x.axis path {
+			  display: none;
+			}
+
+			.toolTip {
+				position: absolute;
+				display: none;
+				min-width: 80px;
+				height: auto;
+				background: none repeat scroll 0 0 #ffffff;
+				border: 1px solid #6F257F;
+				padding: 14px;
+				text-align: center;
+			}
+
+		</style>
+
+		<title>European Union Email Visualization</title>
+
+	</head>
+
+	<body>
+		<div class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
+			<div class="container">
+				<a class="navbar-brand" href="#">
+					Data Visualization and Exploration
+				</a>
+
+				<div class="collapse navbar-collapse" id="navbarResponsive">
+					<ul class="nav navbar-nav ml-auto">
+						<li class="nav-item">
+							<a class="nav-link" href="#">
+								Homework 05
+							</a>
+						</li>
+
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		<div class="container">
+			<div class="page-header" id="banner">
+				<div class="row">
+					<div class="col-lg-8 col-md-7 col-sm-6">
+						<h1>Graph Network : EU Emails</h1>
+						<p class="lead">Emails send between 42 departments of European Union</p>
+					</div>
+				</div>
+			</div>
+			
+			<!--
+			Do not change the size of the div box this is important for
+			mask to fit properly
+			-->
+			<div id="svg_cloud_div">
+				<svg id="svg_cloud" width="1110" height="960" 
+				 style="border: 1px solid black"></svg>
+			</div>
+
+			<div class="col text-center" style="margin-top: 20px">
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="names" id="clinton" value="clinton">
+					<label class="form-check-label" for="inlineRadio1">
+						Hillary Clinton
+					</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="names" id="trump" value="trump">
+					<label class="form-check-label" for="inlineRadio2">
+						Donald Trump
+					</label>
+				</div>
+			</div>
+
+			<div class="bs-docs-section clearfix" style="margin-bottom: 20px">
+				<div class="row">
+					<div class="col-lg-8 col-md-7 col-sm-6">
+						<h1>Bar Graph : EU Emails</h1>
+						<p class="lead">
+							Emails send between 42 departments of European Union
+						</p>
+					</div>	
+				</div>
+			</div>
+
+			<div id="svg_bar_div"> 
+				<svg id="svg_bar" width="1110" height="700"
+				 style="border: 1px solid black"></svg>
+			</div>
+
+			<form class="form-inline">
+				<div class="form-group">
+					<p class="form-control-static">Filter by Month: </p>
+				</div>
+				<div class="form-group col-md-4">
+					<select id="month" class="form-control"></select>
+				</div>
+			</form>
+
+			<div class="bs-docs-section clearfix">
+				<div class="row">
+					<h2>Dataset</h2>
+
+					<p class="lead">
+						This dataset is an aggregate of the data of study for thesis titled, "Data Mining in Presidential Debates and Speeches: How Campaign Rhetoric Shaped Voter Opinion in the 2016 U.S. Presidential Race".
+					</p>
+					
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">
+							Transcripts of the three presidential debates, divided into separate Trump and Clinton text files
+						</li>
+						<li class="list-group-item">
+							Transcripts of Trump's 64 speeches delivered after the RNC and Clinton's 35 speeches delivered after the DNC
+						</li>
+						<li class="list-group-item">
+							Transcripts of select speeches delivered by candidates during the primary campaigns
+						</li>
+						<li class="list-group-item">
+							USC Dornsife/LA Times Presidential Election Poll, with daily breakdown by voter groups
+						</li>
+						<li class="list-group-item">
+							Five Thirty Eight Election Poll, containing daily data from numerous pollsters
+						</li>
+					</ul>
+
+					<p class="lead">
+						For this assigment i have considered the speech section of the dataset by presential candidates Hillary clinton and Donald Trump combined there are 102 speeches. I used NLTK package in python3 to tokenize and removed stop words and finally word frequency was was calculated.
+					</p>
+				</div>
+			</div>
+
+		</div>
+		<!-- container end | super Imp! -->
+
+		<!-- Optional JavaScript -->
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<script
+			src="//code.jquery.com/jquery-3.3.1.min.js"
+			integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+		crossorigin="anonymous"></script>
+		
+		<script
+			src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+			integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+		
+		<script
+			src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+			integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+
+		<script type="text/javascript" src="p-loading.min.js"></script>
+
+		<script src="//d3js.org/d3.v4.min.js"></script>
+		<script src="d3v4-brush-lite.js"></script>
+		<script src="cloud.js"></script>
+
+		<!-- Custom JavaScript -->
+		<script src='script.js'></script>
+	</body>
+</html>
+
+<!--
+
+Reference :
+https://bl.ocks.org/mbostock/4062045
+https://bl.ocks.org/mbostock/3885304
+https://bl.ocks.org/pkerpedjiev/f2e6ebb2532dae603de13f0606563f5b
+
+-->
